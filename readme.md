@@ -27,6 +27,12 @@ Run from the project directory:
 
     docker-compose up
 
+Install the API server : 
+
+    docker exec -it api bash
+    composer install --with-all-dependencies
+    bin/console d:s:u
+
 Start the nuxt server:
 
     docker exec -it app bash

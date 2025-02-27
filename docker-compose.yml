@@ -1,9 +1,9 @@
 version: '3.4'
 
 services:
-  caddy:
-    hostname: caddy
-    container_name: caddy
+  snc_demo_caddy:
+    hostname: snc_demo_caddy
+    container_name: snc_demo_caddy
     restart: unless-stopped
     build:
       context: .
@@ -16,9 +16,9 @@ services:
       - caddy_config:/config
       - ./docker/caddy/caddy:/etc/caddy:cached
 
-  db:
-    hostname: db
-    container_name: db
+  snc_demo_db:
+    hostname: snc_demo_db
+    container_name: snc_demo_db
     build:
       context: .
       dockerfile: docker/db/Dockerfile
@@ -32,9 +32,9 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data:rw
 
-  api:
-    hostname: api
-    container_name: api
+  snc_demo_api:
+    hostname: snc_demo_api
+    container_name: snc_demo_api
     build:
       context: .
       dockerfile: docker/api/Dockerfile
@@ -50,11 +50,11 @@ services:
       - appdata5:/var/www/html/var/cache/
       - appdata5:/var/www/html/var/logs/
     depends_on:
-      - db
+      - snc_demo_db
 
-  app:
-    hostname: app
-    container_name: app
+  snc_demo_app:
+    hostname: snc_demo_app
+    container_name: snc_demo_app
     build:
       context: .
       dockerfile: docker/app/Dockerfile
@@ -68,7 +68,7 @@ services:
     volumes:
       - ./app:/var/app:rw,cached
     depends_on:
-      - api
+      - snc_demo_api
 
 volumes:
   db_data: ~
