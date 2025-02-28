@@ -24,13 +24,13 @@ services:
       dockerfile: docker/db/Dockerfile
     restart: always
     ports:
-      - "5433:5432"
+      - "3306:3306"
     environment:
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - MYSQL_DB=${MYSQL_DB}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
     volumes:
-      - db_data:/var/lib/postgresql/data:rw
+      - mysqldata:/var/lib/mysql
 
   snc_demo_api:
     hostname: snc_demo_api
@@ -71,7 +71,7 @@ services:
       - snc_demo_api
 
 volumes:
-  db_data: ~
+  mysqldata: ~
   appdata5: ~
   caddy_data: ~
   caddy_config: ~

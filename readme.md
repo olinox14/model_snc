@@ -31,9 +31,22 @@ Install the API server :
 
     docker exec -it api bash
     composer install --with-all-dependencies
-    bin/console d:s:u
+    bin/console doctrine:database:create
+    bin/console doctrine:schema:update --force
 
 Start the nuxt server:
 
     docker exec -it app bash
+    yarn install
     yarn dev
+
+## Add Fixtures
+
+    INSERT INTO `snc_demo`.`author` (`name`)
+    VALUES ('Georges Brassens');
+    
+    INSERT INTO `snc_demo`.`song` (`title`, `author_id`)
+    VALUES
+        ('Heureux qui comme Ulysse', 1),
+        ('Les passantes', 1),
+        ("Dans l'eau de la claire fontaine", 1);

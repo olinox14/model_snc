@@ -5,7 +5,10 @@ RUN apt-get update && apt-get install -y --fix-missing \
 
 COPY /docker/api/vhost.conf /etc/apache2/sites-available/vhost.conf
 
+RUN docker-php-ext-install pdo pdo_mysql
+
 RUN a2ensite vhost.conf; \
+    a2enmod rewrite; \
     service apache2 start;
 
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"; \
