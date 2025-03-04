@@ -1,6 +1,5 @@
-import colors from 'vuetify/es5/util/colors'
-
 export default {
+  ssr: true,
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s - App',
@@ -19,6 +18,10 @@ export default {
     ]
   },
 
+  typescript: {
+    strict: true
+  },
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
   ],
@@ -27,49 +30,33 @@ export default {
   plugins: [
   ],
 
-  // Auto import components: https://go.nuxtjs.dev/config-components
-  components: true,
-
-  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [
-    // https://go.nuxtjs.dev/typescript
-    '@nuxt/typescript-build',
-    // https://go.nuxtjs.dev/vuetify
-    '@nuxtjs/vuetify'
-  ],
-
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios'
+    '@nuxtjs/i18n'
   ],
 
-  // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {
-    // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/'
-  },
-
-  // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
-  vuetify: {
-    customVariables: ['~/assets/variables.scss'],
-    theme: {
-      dark: true,
-      themes: {
-        dark: {
-          primary: colors.blue.darken2,
-          accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
-          info: colors.teal.lighten1,
-          warning: colors.amber.base,
-          error: colors.deepOrange.accent4,
-          success: colors.green.accent3
+  vite: {
+    esbuild: {
+      drop: process.env.DEBUG ? [] : ['console', 'debugger'],
+      tsconfigRaw: {
+        compilerOptions: {
+          experimentalDecorators: true
         }
+      }
+    },
+    ssr: {
+      // with ssr enabled, this config is required to load vuetify properly
+      noExternal: ['vuetify']
+    },
+    server: {
+      // @ts-expect-error J'ignore pourquoi cette erreur TS se produit, cette propriété est valide
+      port: 443,
+      hmr: {
+        protocol: 'wss',
+        port: 24678
       }
     }
   },
 
-  // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {
-  }
+  compatibilityDate: '2025-02-28'
 }

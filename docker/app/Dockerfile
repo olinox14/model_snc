@@ -1,9 +1,10 @@
-FROM node:14.18.1-buster
+FROM node:23.8.0
 
 ENV WORKDIR /var/app
+
+RUN corepack enable; \
+    yarn set version 4.3.1;
+
 WORKDIR ${WORKDIR}
 
-# Declare the entrypoint.sh file
-COPY ./docker/app/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+CMD node
