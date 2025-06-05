@@ -4,7 +4,22 @@
 
 local.api.snc-demo.fr {
   tls internal
+
+  # Serve static assets directly
+  @static {
+    path /bundles/* /favicon.ico /robots.txt
+    file {
+      try_files {path}
+    }
+  }
+  root * /var/www/html/public
+  file_server @static {
+    root /var/www/html/public
+  }
+
+  # Proxy everything else to the API
   reverse_proxy http://snc_demo_api
+
   log {
     output file /var/log/api-access.log {
       roll_size 10mb

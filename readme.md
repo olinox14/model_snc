@@ -42,11 +42,31 @@ Start the nuxt server:
 
 ## Add Fixtures
 
+	ALTER TABLE `snc_demo`.`author` AUTO_INCREMENT = 1;
     INSERT INTO `snc_demo`.`author` (`name`)
-    VALUES ('Georges Brassens');
-    
+    VALUES 
+        ('Artist 1'),
+        ('Artist 2'),
+        ('Artist 3');
+
+    ALTER TABLE `snc_demo`.`song` AUTO_INCREMENT = 1;
     INSERT INTO `snc_demo`.`song` (`title`, `author_id`)
     VALUES
-        ('Heureux qui comme Ulysse', 1),
-        ('Les passantes', 1),
-        ("Dans l'eau de la claire fontaine", 1);
+        ('Song A', 1),
+        ('Song B', 1),
+        ('Song C', 1),
+        ('Song D', 2),
+        ('Song E', 2),
+        ('Song F', 3),
+        ('Song G', 3);
+
+
+## Accessing the OpenAPI Interface
+
+The OpenAPI interface is available at:
+
+```
+https://local.api.snc-demo.fr/api/docs
+```
+
+This interface provides documentation for all available API routes.

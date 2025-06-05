@@ -9,9 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity]
-#[ApiResource(operations: [
-    new Get()
-])]
+#[ApiResource]
 class Author
 {
     #[ORM\Id]
