@@ -9,21 +9,24 @@
       <v-icon color="error" large>mdi-alert-circle</v-icon>
       <div class="mt-2">Error loading authors: {{ error }}</div>
     </v-card>
-    <v-card v-else>
-      <v-list>
-        <v-list-item v-for="author in authors" :key="author.id">
-          <v-list-item-title>{{ author.name }}</v-list-item-title>
-        </v-list-item>
-        <v-list-item v-if="authors.length === 0">
-          <v-list-item-title class="text-center">No authors found</v-list-item-title>
-        </v-list-item>
-      </v-list>
+    <v-card v-else-if="authors.length === 0" class="text-center pa-4">
+      <div>No authors found</div>
+    </v-card>
+    <v-card v-else class="pa-4">
+      <v-expansion-panels class="w-80 flex-column" multiple>
+        <AuthorPanel
+          v-for="author in authors"
+          :key="author.id"
+          :author="author"
+        />
+      </v-expansion-panels>
     </v-card>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import AuthorPanel from '~/components/AuthorPanel.vue'
 
 // Set page title
 useHead({
