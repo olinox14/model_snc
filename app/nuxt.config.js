@@ -1,21 +1,23 @@
-export default {
+export default defineNuxtConfig({
   ssr: true,
   // Global page headers: https://go.nuxtjs.dev/config-head
-  head: {
-    titleTemplate: '%s - App',
-    title: 'app',
-    htmlAttrs: {
-      lang: 'en'
+  app: {
+    head: {
+      titleTemplate: '%s - App',
+      title: 'app',
+      htmlAttrs: {
+        lang: 'en'
+      },
+      meta: [
+        {charset: 'utf-8'},
+        {name: 'viewport', content: 'width=device-width, initial-scale=1'},
+        {hid: 'description', name: 'description', content: ''},
+        {name: 'format-detection', content: 'telephone=no'}
+      ],
+      link: [
+        {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}
+      ]
     },
-    meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
-    ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
   },
 
   typescript: {
@@ -24,11 +26,12 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    'vuetify/styles'
   ],
 
-  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-  ],
+  build: {
+    transpile: ['vuetify']
+  },
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
@@ -49,7 +52,6 @@ export default {
       noExternal: ['vuetify']
     },
     server: {
-      // @ts-expect-error J'ignore pourquoi cette erreur TS se produit, cette propriété est valide
       port: 443,
       hmr: {
         protocol: 'wss',
@@ -59,4 +61,4 @@ export default {
   },
 
   compatibilityDate: '2025-02-28'
-}
+})
