@@ -40,6 +40,11 @@ Start the nuxt server:
     yarn install
     yarn dev
 
+> **Warning**: You will probably have to open a tab for both of the domains (`local.api.<domain>.fr` and 
+>          `local.api.<domain>.fr`) in your browser to add a security exception for the self-signed SSL certificate.
+> Without it, the frontend's requests will be blocked as CORS errors.
+
+
 ## Add Fixtures
 
 	ALTER TABLE `snc_demo`.`author` AUTO_INCREMENT = 1;

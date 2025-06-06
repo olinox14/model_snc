@@ -2,7 +2,7 @@
   <div>
     <h1 class="text-center mb-6">Authors</h1>
     <v-card v-if="pending" class="text-center pa-4">
-      <v-progress-circular indeterminate />
+      <v-progress-circular :indeterminate="true" />
       <div class="mt-2">Loading authors...</div>
     </v-card>
     <v-card v-else-if="error" class="text-center pa-4 error--text">
@@ -45,10 +45,10 @@ onMounted(async () => {
   try {
     const response = await fetch('https://local.api.snc-demo.fr/api/authors')
     if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`)
+      throw new Error(`HTTP error. Status: ${response.status}`)
     }
     const data = await response.json()
-    authors.value = data['hydra:member'] || []
+    authors.value = data['member'] || []
   } catch (err) {
     error.value = err instanceof Error ? err.message : 'Unknown error'
     console.error('Error fetching authors:', err)
