@@ -27,7 +27,46 @@ Run from the project directory:
 
     docker-compose up
 
+Install the API server : 
+
+    docker exec -it api bash
+    composer install --with-all-dependencies
+    bin/console doctrine:database:create
+    bin/console doctrine:schema:update --force
+
 Start the nuxt server:
 
     docker exec -it app bash
+    yarn install
     yarn dev
+
+## Add Fixtures
+
+	ALTER TABLE `snc_demo`.`author` AUTO_INCREMENT = 1;
+    INSERT INTO `snc_demo`.`author` (`name`)
+    VALUES 
+        ('Artist 1'),
+        ('Artist 2'),
+        ('Artist 3');
+
+    ALTER TABLE `snc_demo`.`song` AUTO_INCREMENT = 1;
+    INSERT INTO `snc_demo`.`song` (`title`, `author_id`)
+    VALUES
+        ('Song A', 1),
+        ('Song B', 1),
+        ('Song C', 1),
+        ('Song D', 2),
+        ('Song E', 2),
+        ('Song F', 3),
+        ('Song G', 3);
+
+
+## Accessing the OpenAPI Interface
+
+The OpenAPI interface is available at:
+
+```
+https://local.api.snc-demo.fr/api/docs
+```
+
+This interface provides documentation for all available API routes.

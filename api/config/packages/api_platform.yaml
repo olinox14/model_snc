@@ -1,7 +1,12 @@
 api_platform:
+    title: 'SNC Demo API'
+    version: '1.0'
     mapping:
         paths: ['%kernel.project_dir%/src/Entity']
     patch_formats:
         json: ['application/merge-patch+json']
     swagger:
         versions: [3]
+    enable_docs: true
+    enable_swagger: true
+    enable_swagger_ui: true

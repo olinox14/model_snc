@@ -1,83 +1,59 @@
 <template>
-  <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
-      <v-card class="logo py-4 d-flex justify-center">
-        <NuxtLogo />
-        <VuetifyLogo />
-      </v-card>
-      <v-card>
-        <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
-        </v-card-title>
-        <v-card-text>
-          <p>Vuetify is a progressive Material Design component framework for Vue.js. It was designed to empower developers to create amazing applications.</p>
-          <p>
-            For more information on Vuetify, check out the <a
-              href="https://vuetifyjs.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              documentation
-            </a>.
-          </p>
-          <p>
-            If you have questions, please join the official <a
-              href="https://chat.vuetifyjs.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="chat"
-            >
-              discord
-            </a>.
-          </p>
-          <p>
-            Find a bug? Report it on the github <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="contribute"
-            >
-              issue board
-            </a>.
-          </p>
-          <p>Thank you for developing with Vuetify and I look forward to bringing more exciting features in the future.</p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
-          </div>
-          <hr class="my-3">
-          <a
-            href="https://nuxtjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt Documentation
-          </a>
-          <br>
-          <a
-            href="https://github.com/nuxt/nuxt.js"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt GitHub
-          </a>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            color="primary"
-            nuxt
-            to="/inspire"
-          >
-            Continue
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-col>
-  </v-row>
+  <div>
+    <h1 class="text-center mb-6">Authors</h1>
+    <v-card v-if="pending" class="text-center pa-4">
+      <v-progress-circular indeterminate />
+      <div class="mt-2">Loading authors...</div>
+    </v-card>
+    <v-card v-else-if="error" class="text-center pa-4 error--text">
+      <v-icon color="error" large>mdi-alert-circle</v-icon>
+      <div class="mt-2">Error loading authors: {{ error }}</div>
+    </v-card>
+    <v-card v-else>
+      <v-list>
+        <v-list-item v-for="author in authors" :key="author.id">
+          <v-list-item-title>{{ author.name }}</v-list-item-title>
+        </v-list-item>
+        <v-list-item v-if="authors.length === 0">
+          <v-list-item-title class="text-center">No authors found</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-card>
+  </div>
 </template>
 
-<script>
-export default {
-  name: 'IndexPage'
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+
+// Set page title
+useHead({
+  title: 'Authors'
+})
+
+// Define types
+interface Author {
+  id: number
+  name: string
 }
+
+// Fetch authors from API
+const authors = ref<Author[]>([])
+const error = ref<string | null>(null)
+const pending = ref(true)
+
+onMounted(async () => {
+  try {
+    const response = await fetch('https://local.api.snc-demo.fr/api/authors')
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`)
+    }
+    const data = await response.json()
+    authors.value = data['hydra:member'] || []
+  } catch (err) {
+    error.value = err instanceof Error ? err.message : 'Unknown error'
+    console.error('Error fetching authors:', err)
+  } finally {
+    pending.value = false
+  }
+})
 </script>

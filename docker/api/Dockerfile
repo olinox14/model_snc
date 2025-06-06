@@ -1,11 +1,14 @@
-FROM php:8.1-apache
+FROM php:8.2.27-apache
 
 RUN apt-get update && apt-get install -y --fix-missing \
     apt-utils build-essential xorg wget bash gnupg zip nano git;
 
 COPY /docker/api/vhost.conf /etc/apache2/sites-available/vhost.conf
 
+RUN docker-php-ext-install pdo pdo_mysql
+
 RUN a2ensite vhost.conf; \
+    a2enmod rewrite; \
     service apache2 start;
 
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"; \

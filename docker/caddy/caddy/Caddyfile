@@ -2,9 +2,24 @@
   debug
 }
 
-local.api.<domain>.fr {
+local.api.snc-demo.fr {
   tls internal
-  reverse_proxy http://api:80
+
+  # Serve static assets directly
+  @static {
+    path /bundles/* /favicon.ico /robots.txt
+    file {
+      try_files {path}
+    }
+  }
+  root * /var/www/html/public
+  file_server @static {
+    root /var/www/html/public
+  }
+
+  # Proxy everything else to the API
+  reverse_proxy http://snc_demo_api
+
   log {
     output file /var/log/api-access.log {
       roll_size 10mb
@@ -13,9 +28,9 @@ local.api.<domain>.fr {
   }
 }
 
-local.app.<domain>.fr {
+local.app.snc-demo.fr {
   tls internal
-  reverse_proxy http://app:3002
+  reverse_proxy snc_demo_app:3002
   log {
     output file /var/log/app-access.log {
       roll_size 10mb
